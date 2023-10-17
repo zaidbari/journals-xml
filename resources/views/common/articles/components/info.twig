@@ -8,6 +8,8 @@
 		<p>{{author.Affiliation}}</p>
 		{% endif %}
 		<a class="btn btn-outline-secondary btn-sm" href="https://scholar.google.com/scholar?q={{author.FirstName ? get_initials(author.FirstName) : '' }}{{author.MiddleName ? get_initials(author.MiddleName) : '' }} {{author.LastName ? author.LastName : '' }}" target="_blank" rel="noopener noreferrer">Google Scholor Articles</a>
+		<a class="btn btn-outline-secondary btn-sm" href="https://pubmed.ncbi.nlm.nih.gov/?access_num={{author.FirstName ? author.FirstName : '' }} {{author.MiddleName ? author.MiddleName : '' }} {{author.LastName ? author.LastName : '' }}&link_type=AUTHORSEARCH&cmd=search&term={{author.FirstName ? author.FirstName : '' }} {{author.MiddleName ? author.MiddleName : '' }} {{author.LastName ? author.LastName : '' }}%5Bau%5D&dispmax=50" target="_blank" rel="noopener noreferrer">PubMed Articles</a>
 		<hr />
+		
 	{% endfor %}
 </div>
