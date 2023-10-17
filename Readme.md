@@ -6,7 +6,7 @@
 - Check NodeJS version ```node -v```
 
 ## Setup and Installation
-####1: Run the following command to install all the dependencies:
+#### 1: Run the following command to install all the dependencies:
 ```bash
 composer install
 npm install
@@ -16,8 +16,8 @@ npm install
 php -S localhost:8000
 ```
 
-
-
+### .env file
+```.env
 # General Config
 ANALYTICS="null"
 
@@ -41,3 +41,4 @@ DB_PASSWORD=
 
 # Debug Config
 APP_DEBUG=0
+```
