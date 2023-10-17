@@ -28,6 +28,13 @@ class Controller
                 $xml['Article']['AuthorList']['Author'] = array($xml['Article']['AuthorList']['Author']);
             }
             $xml['Article'] = array($xml['Article']);
+        } else {
+            // loopover all articles and see if there is single author in AuthorList
+            foreach ($xml['Article'] as $key => $article) {
+                if (isset($article['AuthorList']['Author']['LastName'])) {
+                    $xml['Article'][$key]['AuthorList']['Author'] = array($article['AuthorList']['Author']);
+                }
+            }
         }
         return $xml;
     }
