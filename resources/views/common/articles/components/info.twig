@@ -7,8 +7,7 @@
 		{% if author.Affiliation %}
 		<p>{{author.Affiliation}}</p>
 		{% endif %}
-		<a class="btn btn-outline-secondary btn-sm" href="{{author.google_scholar}}" target="_blank" rel="noopener noreferrer">Google Scholor Articles</a>
-		<a class="btn btn-outline-secondary btn-sm" href="{{author.pubmed}}" target="_blank" rel="noopener noreferrer">Pubmed Articles</a>
+		<a class="btn btn-outline-secondary btn-sm" href="https://scholar.google.com/scholar?q={{author.FirstName ? get_initials(author.FirstName) : '' }}{{author.MiddleName ? get_initials(author.MiddleName) : '' }} {{author.LastName ? author.LastName : '' }}" target="_blank" rel="noopener noreferrer">Google Scholor Articles</a>
 		<hr />
 	{% endfor %}
 </div>

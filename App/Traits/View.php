@@ -105,7 +105,9 @@ trait View
             }));
             $twig->addFunction(new TwigFunction('get_article_url',  fn($doi) => explode($_ENV['JOURNAL_DOI'], $doi)[1] ));
 
-            
+            $twig->addFunction(new TwigFunction('get_initials', function ($author) {
+                return $author[0];
+            }));
 
             /* ------------------- global variables available in view ------------------- */
             $twig->addGlobal('PAGE_COUNT', $pages_count);
