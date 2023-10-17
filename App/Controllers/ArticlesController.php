@@ -22,6 +22,8 @@ class ArticlesController extends Controller
         foreach ($xml['Article'] as $article) {
             if ($article['ELocationID'] == $_ENV['JOURNAL_DOI'] . $id) {
                 $article_info = $article;
+                $article_info['Journal']['Issue_name'] = $article_info['Journal']['Issue'];
+                $article_info['Journal']['Issue'] = $issue;
                 $article_index = array_search($article, $xml['Article']);
                 $previousArticle = $xml['Article'][$article_index - 1] ?? null;
                 $nextArticle = $xml['Article'][$article_index + 1] ?? null;
