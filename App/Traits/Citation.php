@@ -244,16 +244,28 @@ trait Citation {
                $response = json_decode(json_encode(simplexml_load_string($res)), true);
    
                $citations = [];
-               if (isset($response['query_result']['body']['forward_link']))
-                   foreach ($response['query_result']['body']['forward_link'] as $citation) {
-                       $citations[] = [
-                           'article_title' => $citation['journal_cite']['article_title'],
-                           'doi' => $citation['journal_cite']['doi'],
-                           'article_journal' => $citation['journal_cite']['journal_title'],
-                           'year' => $citation['journal_cite']['year'],
-                           'volume' => $citation['journal_cite']['volume'],
-                       ];
-                   }
+               if (isset($response['query_result']['body']['forward_link'])) {
+                    if (!isset($response['query_result']['body']['forward_link']['journal_cite'])) {
+                        foreach ($response['query_result']['body']['forward_link'] as $citation) {
+                            $citations[] = [
+                                'article_title' => $citation['journal_cite']['article_title'],
+                                'doi' => $citation['journal_cite']['doi'],
+                                'article_journal' => $citation['journal_cite']['journal_title'],
+                                'year' => $citation['journal_cite']['year'],
+                                'volume' => $citation['journal_cite']['volume'],
+                            ];
+                        }
+                    } else {
+                        $citation = $response['query_result']['body']['forward_link']['journal_cite'];
+                        $citations[] = [
+                            'article_title' => $citation['article_title'],
+                            'doi' => $citation['doi'],
+                            'article_journal' => $citation['journal_title'],
+                            'year' => $citation['year'],
+                            'volume' => $citation['volume'],
+                        ];
+                    }
+                }
                 // Print the JSON response
                 return $citations;
             } else {
