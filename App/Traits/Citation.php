@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+require 'App/Lib/simple_html_dom.php'; // Include the Simple HTML DOM Parser library
 
 trait Citation {
     function generateAPACitation($articleData) {
@@ -214,6 +215,38 @@ trait Citation {
         return $citation;
     }
     
+    public function getGoogleScholorCitaions($doi) {
+        $url = 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=' . $doi . '&btnG=';
+        $html = file_get_html($url); // Fetch the HTML content
+        if ($html) {
+           // get the anchor tag that has a text "Cited by"
+            $article = $html->find('.gs_ri', 0);
+            $anchors = $article->find('a');
+            // see if it exists
+            $citedByAnchor = null;
+
+            foreach ($anchors as $anchor) {
+                if (strpos($anchor->plaintext, 'Cited by') !== false) {
+                    $citedByAnchor =(int) explode('Cited by ', $anchor->plaintext)[1];
+                    $citedByUrl = $anchor->href;
+                    break;
+                }
+            }
+
+            $html->clear(); // Clean up the Simple HTML DOM object
+            return [
+                'cited_by_count' => $citedByAnchor ?? null,
+                'cited_by_url' => $citedByUrl ?? null
+            ];
+        
+        } else {
+            return [
+                'cited_by_url' => null,
+                'cited_by_count' => null
+            ];
+        }
+    }
+
     public function getCrossRefCitations($doi) {
         // URL to send the POST request to
         $url = 'https://doi.crossref.org/servlet/getForwardLinks?usr=discpub&pwd=dpub_46&doi=' . $doi;

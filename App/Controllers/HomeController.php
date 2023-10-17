@@ -11,7 +11,7 @@ class HomeController extends Controller
         $featured_article = $this->db()->table('featuredarticle')->select()->first();
         $editorial_board = $this->db()->table('editors')->select()->get();
 
-        $most_cited_articles = $this->db()->table('article_analytics')->select()->orderBy('crossref_citation_count', 'DESC')->limit(5)->get();
+        $most_cited_articles = $this->db()->table('article_analytics')->select()->orderBy('crossref_citation_count', 'DESC')->orderBy('google_citation_count', 'DESC')->limit(5)->get();
         $most_read_articles = $this->db()->table('article_analytics')->select()->orderBy('accessed_count', 'DESC')->limit(5)->get();
         $most_downloaded_articles = $this->db()->table('article_analytics')->select()->orderBy('download_count', 'DESC')->limit(5)->get();
 

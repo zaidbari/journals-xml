@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Traits\Citation;
+use App\Traits\Logs;
 
 class ArticlesController extends Controller
 {
@@ -32,7 +33,11 @@ class ArticlesController extends Controller
         if (empty($article_info)) $this->redirect('404');
 
         $crossRef = $_ENV['APP_DEBUG'] ? [] : $this->getCrossRefCitations($article_info['ELocationID']);
-        
+        $google =  $_ENV['APP_DEBUG'] ? [
+            'cited_by_url' => null,
+            'cited_by_count' => null
+        ] :  $this->getGoogleScholorCitaions($article_info['ELocationID']);
+
         $references = [
             'PubMed Style' => $this->generatePubMedCitation($article_info),
             'AMA (American Medical Association) Style' => $this->generateAMACitation($article_info),
@@ -51,7 +56,7 @@ class ArticlesController extends Controller
             $download = false;
         }   
         // update matrics
-        if (!$_ENV['APP_DEBUG'])  $this->updateArticleAccessed($article_info, $issue, count($crossRef), 0, $download);
+        if (!$_ENV['APP_DEBUG']) $this->updateArticleAccessed($article_info, $issue, count($crossRef), $google['cited_by_count'], $download);
 
         if ($download) {
             // redirect the pdf file
@@ -65,6 +70,7 @@ class ArticlesController extends Controller
             ],
             'data' => $article_info,
             'citations' => $crossRef,
+            'google' => $google,
             'references' => $references,
             'previousArticle' => $previousArticle,
             'nextArticle' => $nextArticle
