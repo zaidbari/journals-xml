@@ -285,7 +285,7 @@ trait Citation {
                                 'doi' => $citation['journal_cite']['doi'],
                                 'article_journal' => $citation['journal_cite']['journal_title'],
                                 'year' => $citation['journal_cite']['year'],
-                                'volume' => $citation['journal_cite']['volume'],
+                                'volume' => $citation['journal_cite']['volume'] ?? ' ',
                             ];
                         }
                     } else {

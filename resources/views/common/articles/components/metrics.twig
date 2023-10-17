@@ -9,5 +9,34 @@
 	>
 			{{data.ArticleTitle | raw}}
 	</a>
+	<hr />
+		
+		{% if google.cited_by_count %}
+		<h4 aria-describedby="section heading">
+			<a href="https://scholar.google.com{{google.cited_by_url}}" target="_blank" rel="noopener noreferrer">
+				View Google Scholor citations: {{google.cited_by_count}} 
+			</a>
+		</h4>
+		<hr />
+		{% endif %}
+		{% if citations %}
+			<h4 aria-describedby="section heading">CrossRef Citations</h4>
+			{% for citation in citations %}
+				<a href="http://doi.org/{{citation.doi}}" target="_blank" rel="noopener noreferrer">
+					<div class="card bg-light shadow-sm border-primary mb-2" style="border-width: 0; border-left-width: 5px; border-left-style: solid; ">
+						<div class="card-body">
+							<h2 class="h6">
+								{{ citation.article_title }}
+							</h2>
+							<p>
+								<small>
+									<b>Journal:</b> {{ citation.article_journal }} | <b>Year:</b> {{ citation.year }} | <b>Volume:</b> {{ citation.volume }} | <b>DOI:</b> {{ citation.doi }}
+								</small>
+							</p>
+						</div>
+					</div>
+				</a>
+			{% endfor %}
+		{% endif %}
 </div>
 {% endif %}
