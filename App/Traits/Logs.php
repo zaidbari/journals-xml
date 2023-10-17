@@ -47,6 +47,7 @@ trait Logs
 
     public static function dump($data)
     {
+        if (!$_ENV['APP_DEBUG']) return;
         echo "<pre>";
         var_dump($data);
         echo "</pre>";
