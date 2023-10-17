@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "no-inline-styles": "off",
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
+      }
+    ],
+    "disown-opener": "off",
+    "meta-charset-utf-8": "off",
+    "axe/text-alternatives": "off",
+    "axe/language": "off",
+    "meta-viewport": "off"
+  }
+}

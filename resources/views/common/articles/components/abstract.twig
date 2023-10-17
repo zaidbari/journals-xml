@@ -1,0 +1,46 @@
+<div class="tab-pane fade show active" id="abstract" role="tabpanel" aria-labelledby="abstract-tab">
+	<h1 class="h3 text-primary mb-4" aria-label="Abstract Title">{{data.ArticleTitle | raw}}</h1>
+	<article role="article">
+		<hr />
+
+		<p aria-describedby="article authors">
+			<b class="text-primary" role="strong">Authors: </b>
+			<i role="emphasis">
+				{% for author in data.AuthorList.Author %}
+					{{author.FirstName ? author.FirstName : '' }} {{author.MiddleName ? author.MiddleName : '' }} {{author.LastName ? author.LastName : '' }}{% if not loop.last %}, {% endif %}
+				{% endfor %}
+			</i>
+		</p>
+		<hr />
+		<h4 aria-describedby="section heading">Abstract</h4>
+		<p class="font-normal" aria-label="paragraph">{{data.Abstract | raw}}</p>
+		<hr />
+		
+
+		<p class="mb-0 pb-2" aria-describedby="article keywords">
+			<b role="strong" class="text-primary">Keywords: </b>
+			<i>
+				{% for keyword in data.ObjectList.Object %}
+					{{keyword.Param}}{% if not loop.last %}, {% endif %}
+				{% endfor %}
+			</i>
+		</p>
+	</article>
+	<hr />
+	{% if not _ENV('APP_DEBUG') %}
+
+	<a
+		aria-describedby="plumx article metrics link"
+		data-badge="true"
+		data-hide-when-empty="true"
+		href="https://plu.mx/plum/a/?doi={{data.ELocationID}}" 
+		data-popup="bottom" 
+		data-size="medium" 
+		class="plumx-plum-print-popup plum-liberty-theme" 
+		data-site="plum" 
+		data-pass-hidden-categories="true"
+	>
+		{{data.ArticleTitle}}
+	</a>
+	{% endif %}
+</div>

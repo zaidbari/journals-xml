@@ -1,0 +1,75 @@
+{% extends "layout.twig" %}
+{% block content  %}
+<header class="bg-light py-5">
+	<div class="container-fluid text-center">
+			
+			<h1 class="h3">
+				<span class="text-primary fw-bold">Year:</span> {{ data.issue_details.year }} |
+				<span class="text-primary fw-bold">Volume:</span> {{ data.issue_details.volume }} |
+				<span class="text-primary fw-bold">Issue:</span> {{ data.issue_details.issue_name }}
+			</h1>
+	</div>
+</header>
+<main class="container my-5">
+<div class="row mb-4">
+	<div class="col-6">
+		{% if data.issue_details.urls.previous %}
+			<a class="btn btn-primary" href="/issue/{{ data.issue_details.urls.previous }}">
+				<i class="bi bi-arrow-left pr-2"></i> 
+				<span>Previous Issue<span>
+			</a>
+		{% endif %}
+	</div>
+	<div class="col-6 align-items-end text-right">
+		{% if data.issue_details.urls.next %}
+			<a class="btn btn-primary" href="/issue/{{ data.issue_details.urls.next }}">
+				<span>Next Issue<span>
+				<i class="bi bi-arrow-right pl-2"></i> 
+			</a>
+		{% endif %}
+</div>
+</div>
+	{% for category,articles in data.articles %}
+		<h2 class="h4 fw-bold px-md-5 px-4 bg-primary shadow-lg text-light rounded-2 mb-4 py-3">{{ category }}</h2>
+		{% for article in articles %}
+			<article class="mb-5 border-start border-5 pl-4 py-2 border-primary">
+				<span class="badge text-uppercase bg-primary">{{ category }}</span>
+				<span class="badge text-uppercase bg-secondary">Pages: {{ article.FirstPage }} - {{ article.LastPage }}</span>
+				<span class="badge text-uppercase"><a target="_blank" rel="noopener noreferrer" href="https://doi.org/{{ article.ELocationID }}">DOI: {{ article.ELocationID }}</a></span>
+				<h1 class="h5 mt-3 fw-bold">
+					<a href="/article/{{ data.issue_details.year }}/{{ data.issue_details.volume }}/{{ data.issue_details.issue }}/{{ get_article_url(article.ELocationID) }}">
+						{{ article.ArticleTitle }}
+					</a>
+				</h1>
+				<p class="font-italic">
+					{% for author in article.AuthorList.Author %}
+						{{author.FirstName ? author.FirstName : '' }} {{author.MiddleName ? author.MiddleName : '' }} {{author.LastName ? author.LastName : '' }}{% if not loop.last %}, {% endif %}
+					{% endfor %}
+				</p>
+				<div>
+					<a 
+						class="btn btn-primary d-md-inline-block d-block mb-md-0 mb-2 text-left btn-sm" 
+						href="/article/{{ data.issue_details.year }}/{{ data.issue_details.volume }}/{{ data.issue_details.issue }}/{{ get_article_url(article.ELocationID) }}"
+					>
+							<i class="bi-file-earmark-ruled-fill pr-2"></i>
+							<span>Read article</span>
+					</a>
+					{% if article.urls.pdf %}
+						<a class="btn btn-danger d-md-inline-block d-block mb-md-0 mb-2 text-left btn-sm" href="https://www.ejmanager.com/fulltextpdf.php?mno={{ article.urls.mno }}" target="_blank" rel="noopener noreferrer">
+							<i class="bi-file-pdf-fill pr-2"></i>
+							<span>PDF</span>
+						</a>
+					{% endif %}
+					{% if article.urls.html %}
+					<a class="btn btn-secondary d-md-inline-block d-block mb-md-0 mb-2 text-left btn-sm" href="/article/{{ article.urls.mno }}">
+						<i class="bi-file-richtext-fill pr-2"></i>
+						<span>Fulltext HTML</span>
+					</a>
+					{% endif %}
+				</div>
+			</article>
+		{% endfor %}
+	{% endfor %}
+
+</main>
+{%  endblock  %}

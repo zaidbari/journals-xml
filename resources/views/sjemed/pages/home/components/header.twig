@@ -1,0 +1,8 @@
+<header class="bg-light py-5 px-4" id="main_header">
+	<div class="container-fluid">
+		<h1 class="text-primary h2">{{ _ENV('JOURNAL_TITLE') }}</h1>
+		{{ decode(journal_data.short_description) | raw }}
+		<a href="http://ejmanager.com/my/{{ _ENV('JOURNAL_ABBREV') | lower }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary px-3">Submit a Menuscript</a>
+		<a href="/current-issue" class="btn btn-outline-primary px-3">Current Issue</a>
+	</div>
+</header>

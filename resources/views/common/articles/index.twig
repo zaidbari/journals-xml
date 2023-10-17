@@ -1,0 +1,60 @@
+{% extends "layout.twig" %}
+{% block content %}
+
+{% include 'common/articles/components/header.twig' %}
+<main class="container my-5">
+		{% include 'common/articles/components/links.twig' %}
+		{% include 'common/articles/components/nav.twig' %}
+
+		<div class="tab-content mb-5" id="nav-tabContent">
+				{% include 'common/articles/components/abstract.twig' %}
+				{% include 'common/articles/components/info.twig' %}
+				{% include 'common/articles/components/howto.twig' %}
+				{% include 'common/articles/components/tools.twig' %}
+				{% include 'common/articles/components/metrics.twig' %}
+				<div class="tab-pane fade" id="html" role="tabpanel" aria-labelledby="html tab">
+					<article class="font-normal" role="article" aria-describedby="Article full text">
+						{{data.html | raw}}
+					</article>
+				</div>
+		</div>
+		<div id="trendmd-suggestions"></div>
+
+		{% include 'common/articles/components/license.twig' %}
+
+</main>
+
+
+{% endblock %}
+
+ {% block scripts %}
+	{% if not _ENV('APP_DEBUG') %}
+		<script type="text/javascript" src="https://cdn.plu.mx/widget-details.js"></script>
+		<script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
+	{% endif %}
+ {% endblock %}
+
+ {% block meta %}
+	<meta name="citation_eissn" content="{{_ENV("JOURNAL_EISSN")}}" />
+	<meta name="citation_issn" content="{{_ENV("JOURNAL_ISSN")}}" />
+	<meta name="citation_volume" content="{{data.Journal.Volume}}" />
+	<meta name="citation_lastpage" content="{{data.LastPage}}" />
+	<meta name="citation_firstpage" content="{{data.FirstPage}}" />
+	<meta name="citation_publisher" content="{{_ENV("JOURNAL_PUBLISHER")}}" />
+	<meta name="citation_journal_title" content="{{_ENV("JOURNAL_TITLE")}}" />
+	<meta name="citation_type" content="JOUR" />
+	<meta name="citation_doi" content="{{data.ELocationID}}" />
+	<meta name="dc.identifier" content="{{data.ELocationID}}" />
+	<meta name="citation_article_type" content="{{data.PublicationType}}" />
+	<meta property=og:description content="{{ _TRUNC(data.Abstract) }} " />
+	<meta name="citation_title" content="{{data.ArticleTitle}}" />
+	<meta property=og:title content="{{data.ArticleTitle}}" />
+	{% for author in data.AuthorList.Author %}
+		<meta name="citation_author" content="{{author.FirstName ? author.FirstName : '' }} {{author.MiddleName ? author.MiddleName : '' }} {{author.LastName ? author.LastName : '' }}" />
+	{% endfor %}
+	<meta name="citation_publication_date" content="{{data.Journal.PubDate.Year}}" />
+	<meta name="citation_issue" content="{{data.Journal.Issue}}" />
+	<meta name="citation_keywords" content="{% for keyword in data.ObjectList.Object %}{{keyword.Param}}{% if not loop.last %}, {% endif %}{% endfor %}" />
+	<meta name="citation_language" content="en" />
+	<meta name="citation_pdf_url" content="{{files.pdf}}" />
+ {% endblock %}

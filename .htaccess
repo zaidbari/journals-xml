@@ -1,0 +1,68 @@
+## EXPIRES CACHING ##
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpg "access 1 year"
+ExpiresByType image/jpeg "access 1 year"
+ExpiresByType image/gif "access 1 year"
+ExpiresByType image/png "access 1 year"
+ExpiresByType text/css "access 1 year"
+ExpiresByType text/html "access 1 month"
+ExpiresByType application/pdf "access 1 year"
+ExpiresByType text/x-javascript "access 1 year"
+ExpiresByType application/x-shockwave-flash "access 1 month"
+ExpiresByType image/x-icon "access 1 year"
+ExpiresDefault "access 1 month"
+</IfModule>
+## EXPIRES CACHING ##
+
+
+## Enable compression ##
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+## Enable compression ##
+IndexIgnore *.* .htaccess */.??* *~ *# */HEADER* */README* */_vti*
+
+Options -Indexes
+Options +FollowSymLinks
+
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)$ index.php [QSA,L]
+
+# Redirect all non-ssl to ssl
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+<FilesMatch "(.*)">
+Order Allow,Deny
+Allow from all
+Deny from env=bad_bot
+</FilesMatch>  
+
+# Security Headers
+<IfModule mod_headers.c>
+# HSTS Header - only when using https
+	Header always set Strict-Transport-Security "max-age=31622400; includeSubDomains; " "expr=%{HTTPS} == 'on'"
+# X-XSS-Protection
+	Header set X-XSS-Protection "1; mode=block"
+# X-Frame-Options
+	Header set X-Frame-Options "SAMEORIGIN"
+# X-Content-Type-Options
+	Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+<FilesMatch "\.(env|json|lock|htaccess|xml|log|gitignore|hintrc)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>

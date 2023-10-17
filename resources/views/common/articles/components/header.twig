@@ -1,0 +1,12 @@
+<header class="bg-light py-5">
+	<div class="container-fluid text-center">
+		<h1 class="h3 fw-light text-dark">{{ data.PublicationType }}</h1>
+		<p>
+			<span class="text-primary fw-bold">Year:</span> {{ data.Journal.PubDate.Year }} |
+			<span class="text-primary fw-bold">Volume:</span> {{ data.Journal.Volume }} |
+			<span class="text-primary fw-bold">Issue:</span> {{ data.Journal.Issue }} |
+			<span class="text-primary fw-bold">Page:</span> {{ data.FirstPage }} - {{ data.LastPage }} |
+			<span class="text-primary fw-bold">DOI:</span> <a title="Persistent link using digital object identifier" href="https://doi.org/{{data.ELocationID}}" target="_blank" class="text-dark" rel="noopener noreferrer">{{ data.ELocationID }}</a>
+		</p>
+	</div>
+</header>

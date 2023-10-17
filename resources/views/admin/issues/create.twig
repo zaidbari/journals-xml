@@ -1,0 +1,43 @@
+{% extends "/admin/partials/layout.twig" %}
+{% block content %}
+<form action="/admin/issues/upload" method="post" enctype="multipart/form-data">
+
+    <div class="row g-5">
+        <div class="col-md-4">
+            <div class="">
+                <label class="form-label" for="year">Year</label>
+                <input type="number" min="0" value="{{data.year}}" name="year" class="form-control" id="year" required>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="">
+                <label class="form-label" for="volume">Volume</label>
+                <input type="number" min="0" value="{{data.volume}}" name="volume" class="form-control" id="volume" required>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="">
+                <label class="form-label" for="issue">Issue</label>
+                <input type="text" value="{{data.issue}}" name="issue" class="form-control" id="issue" required>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="">
+                <label class="form-label" for="issue_label">Issue Label <small>(optional)</small></label>
+                <input type="text" value="{{data.issue_label}}" name="issue_label" class="form-control" id="issue_label">
+            </div>
+        </div>
+        <div class="col-md-8">
+            <label class="form-label" for="xml_file">XML File</label>
+            <input class="form-control" type="file" accept=".xml" name="xml_file" required>
+        </div>
+        
+    </div>
+    <div class="text-end mt-4">
+        <button type="button" class="btn btn-sm btn-neutral me-2">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-primary">Save</button>
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "/admin/partials/layout.twig" %}
+{% block content %}
+<div class="text-right mb-4">
+    <a href="/admin/issues/create" class="btn btn-sm btn-primary"> <i class="bi bi-upload"></i> Upload new issue</a>
+</div>
+<div class="card border-0 mb-7">
+    <div class="table-responsive">
+        <table class="table table-hover table-nowrap">
+            <thead class="table-dark">
+                <tr>
+                    <th class="fw-bold text-light" scope="col">Year</th>
+                    <th class="fw-bold text-light" scope="col">Volume</th>
+                    <th class="fw-bold text-light" scope="col">Issue</th>
+                    <th class="fw-bold text-light" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+	            {% for year,volume in data  %}
+				    {% for volume,issue in volume %}
+					    {% for name,issue in issue %}
+                            <tr>
+                                <td class="fw-bold">{{year}}</td>
+                                <td>{{volume}}</td>
+                                <td>{{name}}</td>
+                                <td class="text-right">
+                                    <form class="d-inline" action="/admin/issues/current" method="post">
+                                        <input type="hidden" name="year" value="{{year}}">
+                                        <input type="hidden" name="volume" value="{{volume}}">
+                                        <input type="hidden" name="issue" value="{{issue}}">
+                                        <button type="submit" class="btn btn-sm  btn-neutral">
+                                            Make Current
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+				    {% endfor %}
+	            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

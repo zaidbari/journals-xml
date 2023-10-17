@@ -1,0 +1,36 @@
+{% extends "layout.twig" %}
+{% block content %}
+<header class="bg-light py-5">
+	<div class="container-fluid text-center">
+		<h1>{{ meta.title }}</h1>
+	</div>
+</header>
+<div class="container my-5">
+	{% for year,volume in data  %}
+		<div class="card">
+			<div class="bg-primary card-header text-white p-3">
+				<span class="h4 fw-bold">
+					Year {{ year }}
+				</span>
+			</div>
+			<div class="card-body">
+				{% for volume,issue in volume %}
+					{% for name,issue in issue %}
+						<p>
+							<a href="/issue/{{year}}/{{volume}}/{{issue}}">
+								<b>Volume:</b> {{ volume }}, <b>Issue:</b> {{ name }}
+							</a>
+						</p>
+					{% endfor %}
+					{% if not loop.last %}
+						<hr />
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>	
+	
+		
+	{% endfor %}
+</div>
+
+{% endblock %}
