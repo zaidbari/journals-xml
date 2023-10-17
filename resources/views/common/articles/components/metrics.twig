@@ -1,13 +1,13 @@
 {% if not _ENV('APP_DEBUG') %}
 <div class="tab-pane fade" id="metrics" role="tabpanel" aria-labelledby="metrics-tab">
 	<a 
-		href="https://plu.mx/plum/a/?doi={{data.doi}}" 
+		href="https://plu.mx/plum/a/?doi={{data.ELocationID}}" 
 		class="plumx-details plum-liberty-theme" 
 		data-hide-print="true" 
 		data-site="plum" 
 		data-pass-hidden-categories="true"
 	>
-			{{data.title}}
+			{{data.ArticleTitle | raw}}
 	</a>
 </div>
 {% endif %}
