@@ -1,6 +1,6 @@
 <div class="tab-pane fade show active" id="abstract" role="tabpanel" aria-labelledby="abstract-tab">
-	<h1 class="h3 text-primary mb-4" aria-label="Abstract Title">{{data.ArticleTitle | raw}}</h1>
 	<article role="article">
+		<h1 class="h3 text-primary mb-4" aria-label="Abstract Title">{{data.ArticleTitle | raw}}</h1>
 		<hr />
 
 		<p aria-describedby="article authors">
@@ -25,8 +25,28 @@
 				{% endfor %}
 			</i>
 		</p>
+		<hr />
+
+		{% if citations %}
+			<h4 aria-describedby="section heading">Citations</h4>
+			{% for citation in citations %}
+				<a href="http://doi.org/{{citation.doi}}" target="_blank" rel="noopener noreferrer">
+					<div class="card bg-light shadow-sm border-primary mb-2" style="border-width: 0; border-left-width: 5px; border-left-style: solid; ">
+						<div class="card-body">
+							<h2 class="h6">
+								{{ citation.article_title }}
+							</h2>
+							<p>
+								<small>
+									<b>Journal:</b> {{ citation.article_journal }} | <b>Year:</b> {{ citation.year }} | <b>Volume:</b> {{ citation.volume }} | <b>DOI:</b> {{ citation.doi }}
+								</small>
+							</p>
+						</div>
+					</div>
+				</a>
+			{% endfor %}
+		{% endif %}
 	</article>
-	<hr />
 	{% if not _ENV('APP_DEBUG') %}
 
 	<a

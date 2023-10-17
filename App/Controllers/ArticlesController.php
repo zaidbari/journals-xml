@@ -37,8 +37,8 @@ class ArticlesController extends Controller
         }
         if (empty($article_info)) $this->redirect('404');
 
-        $crossRef = (bool) $_ENV['APP_DEBUG'] ? [] : $this->getCrossRefCitations($article_info['ELocationID']);
-
+        $crossRef = $_ENV['APP_DEBUG'] ? [] : $this->getCrossRefCitations($article_info['ELocationID']);
+        Logs::dump($crossRef);
         $references = [
             'PubMed Style' => $this->generatePubMedCitation($article_info),
             'AMA (American Medical Association) Style' => $this->generateAMACitation($article_info),
