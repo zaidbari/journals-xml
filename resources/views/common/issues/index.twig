@@ -54,10 +54,12 @@
 							<i class="bi-file-earmark-ruled-fill pr-2"></i>
 							<span>Read article</span>
 					</a>
-					{% if article.urls.pdf %}
-						<a class="btn btn-danger d-md-inline-block d-block mb-md-0 mb-2 text-left btn-sm" href="https://www.ejmanager.com/fulltextpdf.php?mno={{ article.urls.mno }}" target="_blank" rel="noopener noreferrer">
+					{% if get_pdf(article.ELocationID) %}
+						<a 
+							class="btn btn-danger d-md-inline-block d-block mb-md-0 mb-2 text-left btn-sm" 
+							href="/article/{{ data.issue_details.year }}/{{ data.issue_details.volume }}/{{ data.issue_details.issue }}/{{ get_article_url(article.ELocationID) }}/pdf" target="_blank" rel="noopener noreferrer">
 							<i class="bi-file-pdf-fill pr-2"></i>
-							<span>PDF</span>
+							<span>Download PDF</span>
 						</a>
 					{% endif %}
 					{% if article.urls.html %}

@@ -83,9 +83,9 @@ trait View
 
 
             // Required to check availability of PDF file for an article
-            $twig->addFunction(new TwigFunction('get_pdf', function ($content) {
+            $twig->addFunction(new TwigFunction('get_pdf', function ($doi) {
                 return array_search(
-                    $_ENV['APP_ABBRV'] . '-' . $content .'.pdf',
+                    explode($_ENV['JOURNAL_DOI'], $doi)[1] .'.pdf',
                     array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/pdf'), array('..', '.')), true
                 );
             }));

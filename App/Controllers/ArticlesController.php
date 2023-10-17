@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Traits\Citation;
-use App\Traits\Logs;
 
 class ArticlesController extends Controller
 {
@@ -15,13 +14,6 @@ class ArticlesController extends Controller
         $dir = $year . "/" . $volume . "/" . $issue . "/";
         $file = scandir($_SERVER['DOCUMENT_ROOT'] . "/files/xml/" . $dir);
         $xml = $this->readXML($dir. $file[2]);
-        $html = $pdf = null;
-        
-        // scan for html file
-        $pdf = array_search(
-            $id .'.pdf',
-            array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/html'), array('..', '.')), true
-        );
 
         // find article by id
         $article_info = [];
@@ -50,8 +42,20 @@ class ArticlesController extends Controller
             'Turabian Style' => $this->generateTurabianCitation($article_info)
         ];
 
+        $curi = explode('/', $_SERVER['REQUEST_URI']);
+        if (end($curi) == 'pdf') {
+            $download = true;
+        } else {
+            $download = false;
+        }   
         // update matrics
-        if (!$_ENV['APP_DEBUG'])  $this->updateArticleAccessed($article_info, $issue, count($crossRef));
+        if (!$_ENV['APP_DEBUG'])  $this->updateArticleAccessed($article_info, $issue, count($crossRef), 0, $download);
+
+        if ($download) {
+            // redirect the pdf file
+            header('Location: /files/pdf/' . $id .'.pdf');
+            exit;
+        }
 
         $this->view('common/articles/index', [
             'meta' => [
@@ -61,17 +65,13 @@ class ArticlesController extends Controller
             'citations' => $crossRef,
             'references' => $references,
             'previousArticle' => $previousArticle,
-            'nextArticle' => $nextArticle,
-            'files' => [
-                'html' => $html,
-                'pdf' => $pdf,
-            ]
+            'nextArticle' => $nextArticle
         ]);
     }
 
 
    
-    protected function updateArticleAccessed($article, $issue, $crossref_citation_count = 0, $google_citation_count = 0) {
+    protected function updateArticleAccessed($article, $issue, $crossref_citation_count = 0, $google_citation_count = 0, $download = false) {
         $a = explode('/', $article['ELocationID']);
         $article_id = end($a);
         
@@ -84,7 +84,6 @@ class ArticlesController extends Controller
                 ->select()
                 ->where('article_id', $article_id)
                 ->one();
-        
             if ($existingRecord) {
                 // The record exists, update it
                 $this->db()
@@ -96,7 +95,8 @@ class ArticlesController extends Controller
                         'year' => $article['Journal']['PubDate']['Year'],
                         'volume' => $article['Journal']['Volume'],
                         'issue_name' => $article['Journal']['Issue'],
-                        'issue' => $issue
+                        'issue' => $issue,
+                        'download_count' => $download ? $existingRecord['download_count'] + 1 : $existingRecord['download_count']
                     ])
                     ->where('article_id', $article_id)
                     ->execute();
@@ -131,7 +131,8 @@ class ArticlesController extends Controller
                         'year' => $article['Journal']['PubDate']['Year'],
                         'volume' => $article['Journal']['Volume'],
                         'issue_name' => $article['Journal']['Issue'],
-                        'issue' => $issue
+                        'issue' => $issue,
+                        'download_count' => $download ? 1 : 0
                     ])
                     ->execute();
             }

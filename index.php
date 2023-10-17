@@ -57,6 +57,7 @@ $router->get('/archives', '\App\Controllers\IssueController@archives');
  * Article/Citaion tools routes
  * =========================
  **/
+$router->get('/article/{year}/{volume}/{issue}/{id}/pdf', '\App\Controllers\ArticlesController@index');
 $router->get('/article/{year}/{volume}/{issue}/{id}/{tool}', '\App\Controllers\CitationToolsController@generate');
 $router->get('/article/{year}/{volume}/{issue}/{id}', '\App\Controllers\ArticlesController@index');
 
