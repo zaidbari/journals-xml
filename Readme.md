@@ -24,20 +24,20 @@ ANALYTICS="null"
 # App Config
 JOURNAL_ID="72"
 JOURNAL_TITLE="Saudi Journal of Emergency Medicine"
-JOURNAL_ABBREV="sjemed"
+JOURNAL_ABBREV="SJEMed"
 JOURNAL_DOMAIN="https://sjemed.com/"
 JOURNAL_ISSN=""
-JOURNAL_EISSN="1658-8487"
+JOURNAL_EISSN="2520-5002"
 JOURNAL_PUBLISHER="Waraqa Scientific Publishing House / Discover STM Publishing Ltd"
 
 # Database Config
 DB_CONNECTION=mysql
 DB_HOST=localhost
 DB_PORT=3306
-DB_USERNAME=sjemed_admin
-DB_DATABASE=sjemed_admin
-DB_PASSWORD=0hMyG0d683Z!
+DB_USERNAME=
+DB_DATABASE=
+DB_PASSWORD=
 
 
 # Debug Config
-APP_DEBUG=false
+APP_DEBUG=0
