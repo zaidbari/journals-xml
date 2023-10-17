@@ -89,6 +89,12 @@ trait View
                     array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/pdf'), array('..', '.')), true
                 );
             }));
+            $twig->addFunction(new TwigFunction('get_pdf_by_id', function ($doi) {
+                return array_search(
+                    $doi .'.pdf',
+                    array_diff(scandir($_SERVER['DOCUMENT_ROOT'].'/files/pdf'), array('..', '.')), true
+                );
+            }));
 
             // Required to check availability of HTML file for an article
             $twig->addFunction(new TwigFunction('get_html', function ($content) {
