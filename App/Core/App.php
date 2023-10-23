@@ -18,7 +18,7 @@ class App
         if (!file_exists($dir . '/files/html')) mkdir($dir . '/files/html', 0777, true);
         if (!file_exists($dir . '/files/pdf')) mkdir($dir . '/files/pdf', 0777, true);
         if (!file_exists($dir . '/files/xml')) mkdir($dir . '/files/xml', 0777, true);
-        if (!file_exists($dir . '/files/citations')) mkdir($dir . '/files/xml', 0777, true);
+        if (!file_exists($dir . '/files/citations')) mkdir($dir . '/files/citations', 0777, true);
         
         if (!file_exists($dir . '/logs')) mkdir($dir . '/logs', 0777, true);
         
